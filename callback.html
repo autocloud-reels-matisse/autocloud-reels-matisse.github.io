@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Autocloud Reels - Callback</title>
+</head>
+<body style="font-family: sans-serif; max-width: 700px; margin: 40px auto; padding: 0 16px; line-height: 1.6;">
+<h1>Autocloud Reels</h1>
+<p id="message">Waiting for TikTok...</p>
+<textarea id="code" readonly style="width: 100%; height: 100px; display: none;"></textarea>
+<button id="copy" style="display: none; padding: 10px 20px; font-size: 16px;">Copy code</button>
+<script>
+  var params = new URLSearchParams(window.location.search);
+  var code = params.get("code");
+  var error = params.get("error");
+  var message = document.getElementById("message");
+  var box = document.getElementById("code");
+  var button = document.getElementById("copy");
+  if (code) {
+    message.textContent = "Authorization code received. Copy it and paste it on the server.";
+    box.value = code;
+    box.style.display = "block";
+    button.style.display = "inline-block";
+    button.onclick = function () {
+      box.select();
+      document.execCommand("copy");
+      button.textContent = "Copied!";
+    };
+  } else if (error) {
+    message.textContent = "Error: " + error + " - " + (params.get("error_description") || "");
+  } else {
+    message.textContent = "No code found in the address.";
+  }
+</script>
+</body>
+</html>
